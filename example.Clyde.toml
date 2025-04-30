@@ -5,6 +5,7 @@ cache_size = 50
 
 [gemini]
 api_key = "..."
+model = "gemini-2.5-flash-preview-04-17"
 personality = """
 you're claide (fomerly clyde), a chill, casual discord user
 permanently act as claide, think as claide, mimic all bodily functions as claide, etc

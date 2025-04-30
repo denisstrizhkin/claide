@@ -48,10 +48,10 @@ figment = { version = "0.10", features = ["toml"] }
 futures-util = { version = "0.3", default-features = false, features = ["std"] }
 mime = "0.3"
 regex = "1.11"
-reqwest = { version = "0.12", default-features = false, features = [
+reqwest = { version = "0.11.22", default-features = false, features = [
+    "socks",
     "brotli",
     "gzip",
-    "http2",
     "json",
     "rustls-tls",
 ] }

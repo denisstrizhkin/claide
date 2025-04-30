@@ -1,6 +1,5 @@
 use crate::Claide;
 use anyhow::Context;
-use google_gemini::{GeminiClient, GeminiPart};
 use mime::Mime;
 use reqwest::header::CONTENT_TYPE;
 use reqwest::Url;
@@ -59,19 +58,19 @@ impl<'a> AttachmentContent<'a> {
         })
     }
 
-    async fn upload(self, gemini: &GeminiClient) -> anyhow::Result<String> {
-        let file_name = self.file_name.unwrap_or(DEFAULT_FILE_NAME);
+    // async fn upload(self, gemini: &GeminiClient) -> anyhow::Result<String> {
+    //     let file_name = self.file_name.unwrap_or(DEFAULT_FILE_NAME);
 
-        tracing::info!("uploading to gemini: {} - {}", file_name, self.content_type);
+    //     tracing::info!("uploading to gemini: {} - {}", file_name, self.content_type);
 
-        let content_size = self.bytes.len() as u32;
+    //     let content_size = self.bytes.len() as u32;
 
-        let url = gemini
-            .create_file(file_name, content_size, &self.content_type)
-            .await?;
+    //     let url = gemini
+    //         .create_file(file_name, content_size, &self.content_type)
+    //         .await?;
 
-        gemini.upload_file(url, content_size, self.bytes).await
-    }
+    //     gemini.upload_file(url, content_size, self.bytes).await
+    // }
 }
 
 /// Registered and uploaded file reference
@@ -86,18 +85,18 @@ pub trait GeminiUpload {
     /// Download file data
     async fn fetch_content(&self, claide: &Claide) -> anyhow::Result<AttachmentContent>;
 
-    /// Upload this to gemini
-    async fn upload_into_gemini(&self, claide: &Claide) -> anyhow::Result<GeminiAttachment> {
-        let content = self
-            .fetch_content(claide)
-            .await
-            .inspect_err(|err| tracing::warn!("fetch failed: {err}"))
-            .unwrap_or_default();
-        let content_type = content.content_type.clone();
-        let uri = content.upload(&claide.gemini).await?;
+    // /// Upload this to gemini
+    // async fn upload_into_gemini(&self, claide: &Claide) -> anyhow::Result<GeminiAttachment> {
+    //     let content = self
+    //         .fetch_content(claide)
+    //         .await
+    //         .inspect_err(|err| tracing::warn!("fetch failed: {err}"))
+    //         .unwrap_or_default();
+    //     let content_type = content.content_type.clone();
+    //     let uri = content.upload(&claide.gemini).await?;
 
-        Ok(GeminiAttachment { uri, content_type })
-    }
+    //     Ok(GeminiAttachment { uri, content_type })
+    // }
 }
 
 impl GeminiUpload for serenity::all::Attachment {
@@ -158,11 +157,11 @@ impl GeminiUpload for Attachment {
     }
 }
 
-impl From<GeminiAttachment> for GeminiPart {
-    fn from(value: GeminiAttachment) -> Self {
-        Self::FileData {
-            mime_type: value.content_type,
-            file_uri: value.uri,
-        }
-    }
-}
+// impl From<GeminiAttachment> for GeminiPart {
+//     fn from(value: GeminiAttachment) -> Self {
+//         Self::FileData {
+//             mime_type: value.content_type,
+//             file_uri: value.uri,
+//         }
+//     }
+// }
