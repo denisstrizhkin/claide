@@ -8,7 +8,7 @@ aho-corasick.workspace = true
 anyhow.workspace = true
 figment.workspace = true
 futures-util.workspace = true
-google-gemini.workspace = true
+gemini-rs = "1.1.0"
 mime.workspace = true
 regex.workspace = true
 reqwest.workspace = true
@@ -41,16 +41,11 @@ features = [
     "utils",
 ]
 
-[workspace]
-members = ["crates/*"]
-resolver = "2"
-
 [workspace.dependencies]
 aho-corasick = "1.1"
 anyhow = "1"
 figment = { version = "0.10", features = ["toml"] }
 futures-util = { version = "0.3", default-features = false, features = ["std"] }
-google-gemini = { version = "0.0.0", path = "crates/google-gemini" }
 mime = "0.3"
 regex = "1.11"
 reqwest = { version = "0.12", default-features = false, features = [

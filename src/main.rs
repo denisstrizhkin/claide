@@ -204,7 +204,7 @@ async fn main() -> anyhow::Result<()> {
 
     let mut cache_settings = Settings::default();
 
-    cache_settings.max_messages = 500;
+    cache_settings.max_messages = settings.discord.cache_size;
     cache_settings.time_to_live = Duration::from_secs(24 * 60 * 60);
 
     let mut client = Client::builder(

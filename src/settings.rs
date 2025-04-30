@@ -72,12 +72,13 @@ impl<'de> Deserialize<'de> for DomainMatcher {
 #[derive(Clone, Debug, Deserialize)]
 pub struct DiscordSettings {
     pub token: String,
+    pub names: Vec<String>,
+    pub cache_size: usize,
 }
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct GeminiSettings {
     pub api_key: String,
-    #[serde(default, deserialize_with = "deserialize_personality")]
     pub personality: String,
     pub whitelisted_domains: DomainMatcher,
 }
@@ -86,15 +87,6 @@ pub struct GeminiSettings {
 pub struct Settings {
     pub discord: DiscordSettings,
     pub gemini: GeminiSettings,
-}
-
-fn deserialize_personality<'de, D>(deserializer: D) -> Result<String, D::Error>
-where
-    D: Deserializer<'de>,
-{
-    let path = PathBuf::deserialize(deserializer)?;
-
-    fs::read_to_string(path).map_err(Error::custom)
 }
 
 pub fn try_load() -> figment::Result<Settings> {
